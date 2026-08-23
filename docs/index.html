@@ -443,6 +443,17 @@
             margin-bottom: 40px;
             border-bottom: 1px solid var(--border);
         }
+        /* 9요한 초상 — 페르소나 문서에만 렌더러가 주입 (md 미러는 무변경) */
+        .persona-portrait {
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-elev);
+        }
         .doc-kicker {
             display: inline-flex;
             align-items: center;
@@ -1282,6 +1293,20 @@
             const html = marked.parse(body);
             const bodyEl = article.querySelector('.doc-body');
             bodyEl.classList.remove('loading');
+
+            // 9요한 초상 — personas/9XX-handle.md 에 한해 헤더에 주입.
+            // md 미러(볼트 정본의 사본)는 건드리지 않는다 — 재미러 시 드리프트 방지.
+            const pm = file.match(/^personas\/(\d{3})-([a-z-]+)\.md$/);
+            if (pm) {
+                const YOHAN_NAMES = {
+                    '901': '케플러 요한', '902': '괴테 요한', '903': '듀이 요한',
+                    '904': '바흐 요한', '905': '노이만 요한', '906': '세례요한',
+                    '907': '매카시 요한', '908': '하위징아 요한', '909': '칼뱅 요한'
+                };
+                const alt = YOHAN_NAMES[pm[1]] || pm[2];
+                article.querySelector('.doc-header').insertAdjacentHTML('afterbegin',
+                    `<img class="persona-portrait" src="/assets/yohans/web/${pm[1]}-${pm[2]}-320.jpg" alt="${alt} 초상" width="112" height="112" loading="lazy" decoding="async">`);
+            }
 
             const fmBlock = renderFrontmatterBlock(frontmatter);
             if (fmBlock) {

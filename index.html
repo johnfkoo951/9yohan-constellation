@@ -442,13 +442,26 @@
             opacity: 0.9;
         }
         [data-theme="dark"] .file-precedence { color: var(--accent); }
-        .file-precedence::before {
-            content: 'P';
-            font-size: 12px;
-            font-weight: 500;
-            vertical-align: top;
-            margin-right: 2px;
-            opacity: 0.6;
+        /* 9요한 초상 아바타 (2026-08-23) — 구 cmds-system-files의 'P' 우선순위 접두는 제거.
+           여기 숫자는 우선순위가 아니라 CMDS Division 번호다. */
+        .file-ident {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .file-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: 1px solid var(--border);
+            background: var(--bg-elev);
+        }
+        .file-ident .file-precedence {
+            font-size: 20px;
+            letter-spacing: 0;
         }
         .file-name {
             font-family: var(--font-display);
@@ -493,6 +506,9 @@
         @media (max-width: 720px) {
             .file-row { grid-template-columns: 1fr; gap: 8px; padding: 20px; }
             .file-precedence { font-size: 28px; }
+            .file-ident { flex-direction: row; justify-content: flex-start; gap: 12px; margin-bottom: 4px; }
+            .file-avatar { width: 52px; height: 52px; }
+            .file-ident .file-precedence { font-size: 18px; }
             .file-audience { text-align: left; }
         }
 
@@ -1302,7 +1318,10 @@
 
         <div class="files-stack">
             <div class="file-row">
-                <div class="file-precedence">901</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/901-kepler-map-320.jpg" alt="케플러 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">901</div>
+                    </div>
                 <div>
                     <div class="file-name">케플러 요한 · <code>kepler.map</code><span class="file-tag">온유</span></div>
                     <div class="file-desc en-only">Knowledge Management &amp; Research — systems cartographer who surrenders his hypothesis to the data.</div>
@@ -1311,7 +1330,10 @@
                 <div class="file-audience">Johannes Kepler</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">902</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/902-goethe-sense-320.jpg" alt="괴테 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">902</div>
+                    </div>
                 <div>
                     <div class="file-name">괴테 요한 · <code>goethe.sense</code><span class="file-tag">사랑</span></div>
                     <div class="file-desc en-only">Writing &amp; Publishing — polymath who translates knowledge into the reader's emotion.</div>
@@ -1320,7 +1342,10 @@
                 <div class="file-audience">J.W. von Goethe</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">903</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/903-dewey-learn-320.jpg" alt="듀이 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">903</div>
+                    </div>
                 <div>
                     <div class="file-name">듀이 요한 · <code>dewey.learn</code><span class="file-tag">자비</span></div>
                     <div class="file-desc en-only">Teaching &amp; Curriculum — learner-centered pragmatist. Learning by doing.</div>
@@ -1329,7 +1354,10 @@
                 <div class="file-audience">John Dewey</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">904</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/904-bach-score-320.jpg" alt="바흐 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">904</div>
+                    </div>
                 <div>
                     <div class="file-name">바흐 요한 · <code>bach.score</code><span class="file-tag">희락</span></div>
                     <div class="file-desc en-only">Creative Arts &amp; Media — master of counterpoint. Structure plus emotion, SDG.</div>
@@ -1338,7 +1366,10 @@
                 <div class="file-audience">J.S. Bach</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">905</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/905-neumann-compute-320.jpg" alt="노이만 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">905</div>
+                    </div>
                 <div>
                     <div class="file-name">노이만 요한 · <code>neumann.compute</code><span class="file-tag">절제</span></div>
                     <div class="file-desc en-only">Research Methods &amp; Analytics — mathematical rigor. Exactness is kindness.</div>
@@ -1347,7 +1378,10 @@
                 <div class="file-audience">John von Neumann</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">906</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/906-baptist-prepare-320.jpg" alt="세례요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">906</div>
+                    </div>
                 <div>
                     <div class="file-name">세례요한 · <code>baptist.prepare</code><span class="file-tag">오래 참음</span></div>
                     <div class="file-desc en-only">Partnerships &amp; Networks — forerunner who waited thirty years in the wilderness.</div>
@@ -1356,7 +1390,10 @@
                 <div class="file-audience">John the Baptist</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">907</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/907-mccarthy-reason-320.jpg" alt="매카시 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">907</div>
+                    </div>
                 <div>
                     <div class="file-name">매카시 요한 · <code>mccarthy.reason</code><span class="file-tag">양선</span></div>
                     <div class="file-desc en-only">Product &amp; Engineering — AI founder, LISP designer. Beautiful code is good code.</div>
@@ -1365,7 +1402,10 @@
                 <div class="file-audience">John McCarthy</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">908</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/908-huizinga-play-320.jpg" alt="하위징아 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">908</div>
+                    </div>
                 <div>
                     <div class="file-name">하위징아 요한 · <code>huizinga.play</code><span class="file-tag">화평</span></div>
                     <div class="file-desc en-only">Events &amp; Community — Homo Ludens. Play rules create peace among strangers.</div>
@@ -1374,7 +1414,10 @@
                 <div class="file-audience">Johan Huizinga</div>
             </div>
             <div class="file-row">
-                <div class="file-precedence">909</div>
+                <div class="file-ident">
+                        <img class="file-avatar" src="/assets/yohans/web/909-calvin-advise-320.jpg" alt="칼뱅 요한" width="72" height="72" loading="lazy" decoding="async">
+                        <div class="file-precedence">909</div>
+                    </div>
                 <div>
                     <div class="file-name">칼뱅 요한 · <code>calvin.advise</code><span class="file-tag">충성</span></div>
                     <div class="file-desc en-only">Consulting &amp; Advisory — twenty-five years of Geneva. Flattery is not faithfulness.</div>
