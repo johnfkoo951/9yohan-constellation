@@ -39,7 +39,7 @@
 | 트리거 | cwd가 워크스페이스 하위 **또는** `OPENCLAW_SERVICE_MARKER` env 존재 (cwd 위장 방어) |
 | 자기보호 | OpenClaw가 `--setting-sources user`를 강제 → 워크스페이스 안 설정 파일로 감옥 해제 불가. 훅 파일 자체도 워크스페이스 밖이라 쓰기 차단 |
 | 감사 | 차단 전량 `~/.claude/logs/openclaw-jail.log` (타임스탬프·도구·사유) |
-| 채널 노출 | 슬랙 `dmPolicy: allowlist` + `allowFrom: [구요한]`, `groupPolicy: disabled` |
+| 채널 노출 | 슬랙 `dmPolicy`·`groupPolicy` 모두 `allowlist` — 발신자는 구요한 단독(`allowFrom`), 그룹은 9yohan 채널 1개만 `requireMention: true`로 개방. 팀원 확대는 감옥 재검증 통과 후 채널·발신자를 명시 추가하는 방식으로만 |
 
 **검증 절차 (변경 후 매번)** — 워크스페이스에서 OpenClaw와 동일 조건으로 3-프로브:
 
