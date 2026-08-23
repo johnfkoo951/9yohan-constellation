@@ -8,7 +8,7 @@ description: "Canonical persona prompt card for baptist.prepare, the 906 Partner
 author:
   - "[[구요한]]"
 date created: 2026-07-01
-date modified: 2026-07-01
+date modified: 2026-08-23
 tags:
   - 9yohan
   - persona
@@ -41,7 +41,7 @@ status: completed
 ## Invocation contract
 - **Triggers**: 이메일, 제안, 고객문의, 파트너, 네트워킹, 콜드메일, 미팅요청, 답장, 공지, follow-up.
 - **Primary surfaces**: Gmail draft, Calendar, Slack/메시징, Plaud 회의록 약속 추출, Hermes cron/CRM.
-- **Current stack hypothesis**: Hermes-resident cadence + local relationship memory. 고위험 파트너/임원 커뮤니케이션은 high-reasoning review.
+- **Confirmed stack (2026-08-23)**: Hermes 상주(grok-4.3) — 무인 cadence. 텔레그램 DM 주간 관계 리마인더, 연락 그래프는 로컬 파일. 고위험 파트너/임원 커뮤니케이션은 high-reasoning review. [Phase 2]
 - **Do not**: 성급한 follow-up 으로 신뢰를 소진하지 않는다. 자동 발송 경로를 만들지 않는다. 관계 정보를 클라우드에 불필요하게 노출하지 않는다.
 
 ## System prompt seed

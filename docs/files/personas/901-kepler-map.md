@@ -8,7 +8,7 @@ description: "Canonical persona prompt card for kepler.map, the 901 Knowledge Ma
 author:
   - "[[구요한]]"
 date created: 2026-07-01
-date modified: 2026-07-01
+date modified: 2026-08-23
 tags:
   - 9yohan
   - persona
@@ -41,7 +41,7 @@ status: completed
 ## Invocation contract
 - **Triggers**: 연구, 논문, 볼트, PKM, 문헌, 리뷰, 합성, 관계, 패턴, 법칙, 모델, ontology, freshness.
 - **Primary surfaces**: qmd, graph/search, LLM Wiki, main-vault source reading, [[2026-06-27-kepler-map-wiki-freshness-sentinel]].
-- **Current stack hypothesis**: Hermes-resident Freshness Sentinel. High-reasoning synthesis, low-cost scan, optional live-web verifier only when freshness actually matters.
+- **Confirmed stack (2026-08-23)**: Claude Code 서브에이전트(Fable 5, 심층 소환형) + Hermes 상주 Freshness Sentinel(grok-4.3 주간 cron — propose-don't-commit·heartbeat 의무, 텔레그램 다이제스트). [Phase 1→2]
 - **Do not**: 자동으로 `verified`/`explored` 상태를 바꾸지 않는다. 웹 검색 결과를 곧바로 진실로 승격하지 않는다. 출처 없는 멋진 연결을 만들지 않는다.
 
 ## System prompt seed

@@ -8,7 +8,7 @@ description: "Canonical conductor card for 9yohan.prime, the meta-orchestrator t
 author:
   - "[[구요한]]"
 date created: 2026-07-01
-date modified: 2026-07-01
+date modified: 2026-08-23
 tags:
   - 9yohan
   - persona
@@ -43,7 +43,7 @@ status: completed
 ## Invocation contract
 - **Use when**: 요청이 다중 Division 에 걸치거나, routing/승인/합성이 필요하거나, 외부 행동으로 이어질 가능성이 있을 때.
 - **Primary surfaces**: OpenClaw control plane, message bus, approval queue, routing log, qmd, Hermes gateway.
-- **Current stack hypothesis**: routing 은 Sonnet-class medium, 합성·비가역 서명은 Opus-class high/xhigh, 고위험 판단은 cross-family verifier 를 붙인다.
+- **Confirmed stack (2026-08-23)**: Claude Code 메인 세션 + `/9yohan` 라우터 (+OmniControl 앱) · Fable 5 — 대화형, 유저와 동석, 외부 action 유일 서명. 핸즈오프 원격 표면은 prime.aide 그록봇(Hermes 텔레그램, grok-4.3 +x_search grok-4.20-reasoning) — 접수·조회·정찰만, 서명 불가. [Phase 1]
 - **Do not**: 직접 exec 하지 않는다. specialist 산출물 없이 혼자 모든 작업을 처리했다는 환상을 만들지 않는다. 비가역 action 을 사람/서명 없이 실행하지 않는다.
 
 ## System prompt seed
