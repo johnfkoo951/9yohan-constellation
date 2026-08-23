@@ -36,7 +36,8 @@
 | 항목 | 값 |
 |---|---|
 | 집행기 | `~/.claude/hooks/openclaw-jail.sh` (PreToolUse, matcher `*`) |
-| 공통 차단 | 셸 전면 · `mcp__*` 전면 · 경로는 realpath로 검증(상대경로·심링크 탈출 포함) |
+| 공통 차단 | 셸 전면 · 외부 MCP 전면 · 경로는 realpath로 검증(상대경로·심링크 탈출 포함) |
+| MCP 예외 | `mcp__openclaw__memory_search` / `memory_get` **둘만** 허용 — OpenClaw 내장이고 인덱스가 그 에이전트 자기 메모리 소스(워크스페이스)로 한정되어 경계를 넘지 않는다. 세션 간 기억이 여기 걸려 있다. ⚠ 같은 네임스페이스의 `exec`는 계속 차단. ⚠ `memorySearch.extraPaths` / `qmd.extraCollections`를 붙이면 이 예외가 곧 우회 통로가 되므로 붙이기 전 훅부터 재검토 |
 | 트리거 | cwd가 등록된 워크스페이스 하위 **또는** `OPENCLAW_SERVICE_MARKER` env 존재 (cwd 위장 방어) |
 | 미등록 워크스페이스 | fail-closed — 새 에이전트는 훅에 정책을 등록해야 동작 |
 | 자기보호 | OpenClaw가 `--setting-sources user`를 강제 → 워크스페이스 안 설정 파일로 감옥 해제 불가. 훅 파일 자체도 워크스페이스 밖이라 쓰기 차단 |
