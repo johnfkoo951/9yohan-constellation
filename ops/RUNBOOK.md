@@ -41,7 +41,8 @@
 |---|---|
 | 집행기 | `~/.claude/hooks/openclaw-jail.sh` (PreToolUse, matcher `*`) |
 | 공통 차단 | 셸 전면 · 외부 MCP 전면 · 경로는 realpath로 검증(상대경로·심링크 탈출 포함) |
-| MCP 예외 | `mcp__openclaw__memory_search` / `memory_get` **둘만** 허용 — OpenClaw 내장이고 인덱스가 그 에이전트 자기 메모리 소스(워크스페이스)로 한정되어 경계를 넘지 않는다. 세션 간 기억이 여기 걸려 있다. ⚠ 같은 네임스페이스의 `exec`는 계속 차단. ⚠ `memorySearch.extraPaths` / `qmd.extraCollections`를 붙이면 이 예외가 곧 우회 통로가 되므로 붙이기 전 훅부터 재검토 |
+| MCP 예외 (공통) | `mcp__openclaw__memory_search` / `memory_get` — OpenClaw 내장이고 인덱스가 그 에이전트 자기 메모리 소스(워크스페이스)로 한정되어 경계를 넘지 않는다. 세션 간 기억이 여기 걸려 있다. ⚠ 같은 네임스페이스의 `exec`는 계속 차단. ⚠ `memorySearch.extraPaths` / `qmd.extraCollections`를 붙이면 이 예외가 곧 우회 통로가 되므로 붙이기 전 훅부터 재검토 |
+| MCP 예외 (kepler 전용) | `mcp__qmd__*` — **왜 필요한가**: OpenClaw 도구 카탈로그의 `fs`는 read/write/edit/apply_patch뿐이고 **파일 검색 도구가 없다**. 평소엔 `exec`(셸)로 grep/ls를 하는데 셸을 막으면 검색 수단이 통째로 사라진다("경로를 아는 파일만 열 수 있음"). qmd는 두 볼트를 로컬 임베딩으로 인덱싱한 읽기 전용 검색이고 코퍼스가 kepler의 읽기 범위와 정확히 일치(10,572건/14컬렉션 전부 두 볼트 내)해 그 구멍만 메운다. ⚠ 하위징아에게는 곧 볼트 우회 통로 — 훅이 `agent=kepler`일 때만 통과시킨다 |
 | 트리거 | cwd가 등록된 워크스페이스 하위 **또는** `OPENCLAW_SERVICE_MARKER` env 존재 (cwd 위장 방어) |
 | 미등록 워크스페이스 | fail-closed — 새 에이전트는 훅에 정책을 등록해야 동작 |
 | 자기보호 | OpenClaw가 `--setting-sources user`를 강제 → 워크스페이스 안 설정 파일로 감옥 해제 불가. 훅 파일 자체도 워크스페이스 밖이라 쓰기 차단 |
