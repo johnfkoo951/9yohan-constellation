@@ -1,0 +1,131 @@
+{
+  "_comment": "9yohan identity registry — 오버레이 카드·대시보드가 공유하는 단일 원천. ring=다크 카드 위에서 읽히도록 초상 지배색의 hue를 유지한 채 S/V를 올린 값. crop=[x,y,w,h] 정사각 원본에 대한 비율 — 40px에서 읽히도록 손으로 정한 포컬 사각형.",
+  "yohans": {
+    "kepler-map": {
+      "division": "901",
+      "name": "케플러",
+      "division_name": "KM & Research",
+      "fruit": "온유",
+      "ring": "#5B6FE0",
+      "crop": [
+        0.06,
+        0.33,
+        0.34,
+        0.34
+      ],
+      "source": "assets/yohans/901-kepler-map.png"
+    },
+    "goethe-sense": {
+      "division": "902",
+      "name": "괴테",
+      "division_name": "Writing & Publishing",
+      "fruit": "사랑",
+      "ring": "#D63C53",
+      "crop": [
+        0.5,
+        0.1,
+        0.48,
+        0.48
+      ],
+      "source": "assets/yohans/902-goethe-sense.png"
+    },
+    "dewey-learn": {
+      "division": "903",
+      "name": "듀이",
+      "division_name": "Teaching & Curriculum",
+      "fruit": "자비",
+      "ring": "#D69D3C",
+      "crop": [
+        0.06,
+        0.32,
+        0.44,
+        0.44
+      ],
+      "source": "assets/yohans/903-dewey-learn.png"
+    },
+    "bach-score": {
+      "division": "904",
+      "name": "바흐",
+      "division_name": "Creative Arts & Media",
+      "fruit": "희락",
+      "ring": "#964DD6",
+      "crop": [
+        0.1,
+        0.3,
+        0.42,
+        0.42
+      ],
+      "source": "assets/yohans/904-bach-score.png"
+    },
+    "neumann-compute": {
+      "division": "905",
+      "name": "폰 노이만",
+      "division_name": "Research Methods & Analytics",
+      "fruit": "절제",
+      "ring": "#58A6C8",
+      "crop": [
+        0.24,
+        0.2,
+        0.52,
+        0.52
+      ],
+      "source": "assets/yohans/905-neumann-compute.png"
+    },
+    "baptist-prepare": {
+      "division": "906",
+      "name": "세례요한",
+      "division_name": "Partnerships & Networks",
+      "fruit": "오래 참음",
+      "ring": "#C8B87A",
+      "crop": [
+        0.12,
+        0.3,
+        0.3,
+        0.3
+      ],
+      "source": "assets/yohans/906-baptist-prepare.png"
+    },
+    "mccarthy-reason": {
+      "division": "907",
+      "name": "매카시",
+      "division_name": "Product & Engineering",
+      "fruit": "양선",
+      "ring": "#69D68C",
+      "crop": [
+        0.06,
+        0.18,
+        0.36,
+        0.36
+      ],
+      "source": "assets/yohans/907-mccarthy-reason.png"
+    },
+    "huizinga-play": {
+      "division": "908",
+      "name": "하위징아",
+      "division_name": "Events & Community",
+      "fruit": "화평",
+      "ring": "#E8663E",
+      "crop": [
+        0.14,
+        0.14,
+        0.72,
+        0.72
+      ],
+      "source": "assets/yohans/908-huizinga-play.png"
+    },
+    "calvin-advise": {
+      "division": "909",
+      "name": "칼뱅",
+      "division_name": "Consulting & Advisory",
+      "fruit": "충성",
+      "ring": "#7C93AD",
+      "crop": [
+        0.44,
+        0.06,
+        0.5,
+        0.5
+      ],
+      "source": "assets/yohans/909-calvin-advise.png"
+    }
+  }
+}

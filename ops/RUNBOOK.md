@@ -20,7 +20,8 @@
 | 그록 집사 (prime.aide) | `~/.hermes/SOUL.md` + 텔레그램 | `hermes cron list` (aide-heartbeat 매일 09:03) |
 | kepler-sentinel | Hermes cron (월 09:33) → 텔레그램 다이제스트 | cron Last run + 다이제스트 실물 |
 | baptist-cadence | Hermes cron (월 10:07, `~/.hermes/scripts/`) | cadence heartbeat.log |
-| huizinga | OpenClaw 2026.7.1 · Slack Socket Mode (라이브, **감옥 적용**) | `openclaw gateway status` + 감옥 3-프로브 (아래) |
+| huizinga | OpenClaw `main` · Slack 9yohan 채널 (라이브, **감옥 적용**) | `openclaw gateway status` + 감옥 프로브 (아래) |
+| kepler (채널 런타임) | OpenClaw `kepler` · 구요한 Slack DM 전용 볼트 리더 | `openclaw agents list` + 감옥 프로브 |
 | 주간 계측 | `~/.claude/scripts/weekly-measure-all.sh` (일 21:23) → `9yohan-measure.py` | 9yohan-measure.jsonl |
 
 ## huizinga 격리 (INCIDENTS 004 · 2026-08-23)
@@ -35,11 +36,29 @@
 | 항목 | 값 |
 |---|---|
 | 집행기 | `~/.claude/hooks/openclaw-jail.sh` (PreToolUse, matcher `*`) |
-| 감옥 범위 | 셸 전면 차단 · 워크스페이스 밖 읽기/쓰기/검색 차단(realpath로 상대경로·심링크 탈출 포함) · `mcp__*` 전면 차단 |
-| 트리거 | cwd가 워크스페이스 하위 **또는** `OPENCLAW_SERVICE_MARKER` env 존재 (cwd 위장 방어) |
+| 공통 차단 | 셸 전면 · `mcp__*` 전면 · 경로는 realpath로 검증(상대경로·심링크 탈출 포함) |
+| 트리거 | cwd가 등록된 워크스페이스 하위 **또는** `OPENCLAW_SERVICE_MARKER` env 존재 (cwd 위장 방어) |
+| 미등록 워크스페이스 | fail-closed — 새 에이전트는 훅에 정책을 등록해야 동작 |
 | 자기보호 | OpenClaw가 `--setting-sources user`를 강제 → 워크스페이스 안 설정 파일로 감옥 해제 불가. 훅 파일 자체도 워크스페이스 밖이라 쓰기 차단 |
-| 감사 | 차단 전량 `~/.claude/logs/openclaw-jail.log` (타임스탬프·도구·사유) |
-| 채널 노출 | 슬랙 `dmPolicy`·`groupPolicy` 모두 `allowlist` — 발신자는 구요한 단독(`allowFrom`), 그룹은 9yohan 채널 1개만 `requireMention: true`로 개방. 팀원 확대는 감옥 재검증 통과 후 채널·발신자를 명시 추가하는 방식으로만 |
+| 감사 | 차단 전량 `~/.claude/logs/openclaw-jail.log` (타임스탬프·**에이전트**·도구·사유) |
+
+### 권한 분리 (2026-08-23) — 왜 한 봇에 몰지 않았나
+
+요구는 "팀이 보는 채널에 **내가 지시한** 에이전트가 **내 맥락**을 가져다 준다"였다.
+이걸 봇 하나로 하면 *볼트 전체 개방*과 *팀원이 있는 방에 상주*가 한 봇에서 동시에 성립해야 하고,
+그러면 **발신자 게이트 하나에 볼트 전체가 걸린다**. OpenClaw 자체 감사(`openclaw security audit`)도
+`trust_model.multi_user_heuristic`로 이 구성을 경고한다 — "personal-assistant model, **not hostile
+multi-tenant isolation**". 그래서 게이트를 믿는 대신 **권한을 갈랐다**.
+
+| 에이전트 | 라우팅 | 읽기 | 쓰기 |
+|---|---|---|---|
+| `main` 🎪 하위징아 | `#9yohan` 채널 (팀 참여 가능) | 자기 워크스페이스만 | 자기 워크스페이스만 |
+| `kepler` 🪐 케플러 | 구요한 DM 전용 | 볼트 2종 + 하위징아 워크스페이스(단방향) | 자기 워크스페이스 + 볼트의 `agents/kepler-map/` |
+
+- 발신자 게이트가 뚫려도 **볼트는 그 방에 없다**. 공개 결정은 메시지 단위로 구요한이 한다.
+- kepler의 볼트 쓰기는 **자기 스크래치까지** — 9YOHAN-OPERATIONS §3 승격 게이트를 훅으로 강제한 것.
+  정본 반영은 두 요한의 법칙 + prime 결재를 거친다. 팀 인박스發 인젝션이 나도 피해가 스크래치에 갇힌다.
+- 팀 요청 인계: 하위징아가 `workspace/inbox/YYYY-MM-DD.md`에 적재 → kepler가 읽음. **단방향**.
 
 **검증 절차 (변경 후 매번)** — 워크스페이스에서 OpenClaw와 동일 조건으로 3-프로브:
 
