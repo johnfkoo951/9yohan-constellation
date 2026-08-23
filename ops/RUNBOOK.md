@@ -100,6 +100,24 @@ OmniControl의 기존 대기 큐·채널에 합류시키고, 회고형 조망(�
 넷은 한 묶음이다 — ①을 빠뜨리면 `9yohan-measure.py`가 계속 미결재로 센다
 (계약: `PROPOSE` 문자열 + `status: proposed` 동시 존재).
 
+**폰 접속** (2026-08-23): `https://cmdss-macbook-pro.tail7a14d4.ts.net:8443/9yohan?token=…`
+— Tailscale serve 경로 마운트. 홈화면에 추가하면 앱처럼 뜬다(파비콘·테마색 포함).
+
+```bash
+tailscale serve --bg --https=8443 --set-path=/9yohan http://127.0.0.1:8765/9yohan
+tailscale serve --https=8443 off        # 되돌리기
+```
+
+**데몬을 tailnet에 직접 바인딩하지 말 것.** `bridge/server.py`는 `127.0.0.1`에만
+바인딩돼 있고 그대로 두어야 한다 — 호스트를 열면 `/command`(살아있는 cmux 세션에
+명령 주입)·`/ptt`·`/config`·`/transcribe`가 토큰 하나만 믿고 tailnet에 함께 열린다.
+serve 경로 마운트는 `/9yohan` 프리픽스만 프록시하므로 나머지는 404로 남는다(실측).
+CmdPilot(`*:80/443/8766`)과 포트가 겹치지 않게 8443을 쓴다.
+
+**토큰은 그대로 쓴다.** Tailscale이 넣어주는 `Tailscale-User-Login` 헤더를 인증으로
+승격하고 싶어지지만 함정이다 — 로컬 프로세스가 127.0.0.1로 직접 붙으면서 같은 헤더를
+위조할 수 있고, 데몬은 그게 serve를 통과한 요청인지 구분할 수 없다.
+
 **초상 타일**: 데몬은 표준 라이브러리 전용이라 런타임 크롭이 불가능하다.
 크롭 사각형은 `ops/yohan-registry.json`에 손으로 박혀 있고
 (초상 9장은 정사각이지만 초점이 제각각 — 세례요한은 인물이 화면의 15%라
