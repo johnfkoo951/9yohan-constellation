@@ -37,6 +37,7 @@
 │   ├── index.html          # Full docs (editorial-docs template)
 │   └── files/              # Vault-sourced markdown docs
 │       ├── canonical.md    # Layer 01 — Identity SSOT
+│       ├── personas/       # Layer 01 — Individual persona canon cards
 │       ├── constellation.md # Layer 02 — Agent definitions
 │       ├── architecture.md # Layer 02 — Harness spec
 │       ├── workflows.md    # Layer 03 — Patterns
@@ -57,6 +58,9 @@
 ## Deploy
 
 ```bash
+# Validate mirrored persona canon
+python3 scripts/validate-persona-canon.py
+
 # One-time: OG image render
 ./scripts/build-og.sh
 
@@ -68,9 +72,10 @@ vercel deploy --prod --yes --scope johnfkoo951s-projects
 
 The `docs/files/` markdown documents are sourced from the CMDSPACE Obsidian vault at `00. Inbox/03. AI Agent/03-1. Claude Code (MBP)/2026-04-19-9yohan-orchestration/`. They are the **actual working documents** used to design and operate the system — not a web-specific rewrite.
 
+As of 2026-07-01, `docs/files/personas/` mirrors the mothership's individual persona canon: 9 specialist prompt cards (`901-kepler-map` through `909-calvin-advise`) plus `00-9yohan-prime` as the conductor/sign-off kernel. Edit the Obsidian mothership first, then mirror into this repo.
+
 ## Credits
 
 - **9요한** (Yohan Koo / 구요한) · Sovereign Kernel · project owner
 - **CMDSPACE** · https://litt.ly/cmds
 - **System Files** · https://system.cmdspace.work (sibling project defining the CMDS vault itself)
-

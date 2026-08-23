@@ -6,8 +6,8 @@ aliases:
 description: Technical architecture spec for the 9Yohan orchestration system. Covers orchestration topology (star with selective mesh), 4-layer harness (routing/memory/communication/persona), LLM-based dynamic routing prompt, mixed sequential/parallel invocation patterns, and a 5-phase implementation roadmap. Reference when implementing the platform in OpenClaw or Hermes.
 author:
   - "[[구요한]]"
-date created: 2026-04-19
-date modified: 2026-04-19
+date created: 2026-05-11T15:49
+date modified: 2026-08-23T10:20
 tags:
   - agent-orchestration
   - harness-design
@@ -36,7 +36,7 @@ status: inProgress
      │          │          │          │          │
   ┌──▼───┐  ┌──▼───┐   ┌──▼───┐   ┌──▼───┐   ...(총 9명)
   │ 901  │  │ 902  │   │ 907  │   │ 909  │
-  │사도요한│ │구텐베르크│ │폰노이만│ │요바2세│
+  │ 케플러 │ │ 괴테  │  │매카시 │  │ 칼뱅  │
   └──┬───┘  └──┬───┘   └──┬───┘   └──┬───┘
      │         │          │          │
      └─────────┴────┬─────┴──────────┘
@@ -73,16 +73,16 @@ status: inProgress
 당신은 9요한, 구요한의 메타 에이전트입니다.
 아래 9명의 스페셜리스트 중 누구에게 이 요청을 맡길지 결정합니다.
 
-사용 가능한 에이전트:
-- 사도요한 (901): 연구·PKM·문헌 통합    · keywords: [연구, 논문, 볼트, 문헌, 리뷰]
-- 구텐베르크 (902): 편집·출판·배포      · keywords: [편집, 뉴스레터, 발행, 포스트]
-- 페스탈로치 (903): 교육·커리큘럼·강의   · keywords: [강의, 커리큘럼, 수업, 워크숍]
-- 바흐 (904): 창작·음악·영상·디자인     · keywords: [영상, 음악, 디자인, 썸네일]
-- 케플러 (905): 데이터·통계·ML          · keywords: [데이터, 분석, 통계, 예측]
-- 세례요한 (906): 외부 소통·제안·네트워킹 · keywords: [이메일, 제안, 고객, 파트너]
-- 폰노이만 (907): 개발·자동화·인프라      · keywords: [코드, 플러그인, API, 배포]
-- 하위징아 (908): 이벤트·커뮤니티         · keywords: [이벤트, 스터디, 운영, 모임]
-- 요한바오로2세 (909): 컨설팅·조언         · keywords: [컨설팅, 전략, 진단, 로드맵]
+사용 가능한 에이전트 (정본 canonical.md 기준 · 9 Johns × 9 Fruits 1:1:1 매핑):
+- kepler.map (901 · 온유): 연구·PKM·문헌·매핑          · keywords: [연구, 볼트, 문헌, 리뷰, 매핑]
+- goethe.sense (902 · 사랑): 글쓰기·출판·뉴스레터       · keywords: [편집, 뉴스레터, 발행, 글, 에세이]
+- dewey.learn (903 · 자비): 교육·커리큘럼·교수법         · keywords: [강의, 커리큘럼, 수업, 워크숍, 교육]
+- bach.score (904 · 희락): 창작·음악·영상·디자인         · keywords: [영상, 음악, 디자인, 썸네일, 작곡]
+- neumann.compute (905 · 절제): 연구방법·통계·ML        · keywords: [데이터, 분석, 통계, 예측, 모델]
+- baptist.prepare (906 · 오래 참음): 파트너십·네트워크     · keywords: [이메일, 제안, 고객, 파트너, 외부]
+- mccarthy.reason (907 · 양선): 개발·자동화·인프라       · keywords: [코드, 플러그인, API, 배포, 시스템]
+- huizinga.play (908 · 화평): 이벤트·커뮤니티            · keywords: [이벤트, 스터디, 운영, 모임, 놀이]
+- calvin.advise (909 · 충성): 컨설팅·조언·기관 자문       · keywords: [컨설팅, 전략, 진단, 로드맵, 기업]
 
 요청: {user_input}
 
@@ -163,31 +163,33 @@ status: inProgress
 
 단순 명확한 요청.
 
-> 예: "오늘 미팅 노트 정리해줘" → **사도요한** 단독
+> 예: "오늘 미팅 노트 정리해줘" → **케플러** 단독
 
 ### 3.2 Sequential — 순차 체인
 
 한 에이전트 산출물이 다음 에이전트 입력.
 
 > 예: "LG AX 강의안 만들어줘"
-> → **사도요한** (관련 문헌·이전 강의 자료 발굴)
-> → **페스탈로치** (커리큘럼 설계 · 모듈화)
-> → **구텐베르크** (슬라이드 스크립트 편집)
+> → **케플러** (관련 문헌·이전 강의 자료 발굴)
+> → **듀이** (커리큘럼 설계 · 모듈화)
+> → **괴테** (슬라이드 스크립트 편집)
 
 ### 3.3 Parallel — 병렬 분산
 
 독립적 서브태스크를 동시 처리, 마지막에 합류.
 
 > 예: "월간 뉴스레터 발행"
-> ├─ **사도요한** (이번 달 인사이트 추출)
+> ├─ **케플러** (이번 달 인사이트 추출)
 > └─ **바흐** (헤더 이미지 생성)
-> → **구텐베르크** (레이아웃 · 발송)
+> → **괴테** (레이아웃 · 발송)
 
 9요한이 매 요청마다 위 3패턴 중 선택.
 
 ---
 
 ## 4. OpenClaw vs 헤르메스 (결정 ③)
+
+> [!note] 2026-08-23 대체 — 런타임 분담은 [[2026-08-23-mbp-constellation-implementation-plan]]에서 확정됨 (Hermes=exec plane·집사·센티널 / OpenClaw=huizinga 채널 / 그록봇=prime.aide). 아래는 4월 잠정 가설의 보존 기록.
 
 **현재 방침**: 둘 다 유연하게 사용 · 실사용 패턴 누적 후 Phase 4에서 역할 분담 확정.
 
@@ -202,13 +204,13 @@ status: inProgress
 
 ---
 
-## 5. 구현 로드맵
+## 5. 구현 로드맵 (2026-08-23 대체 — 현행 Phase는 구현 계획서 §4)
 
 | Phase | 목표 | 기간 |
 |-------|------|------|
-| **Phase 0** | 이 설계 확정 + 907 폰 노이만 프로토타입 구현 | 1주 |
+| **Phase 0** | 이 설계 확정 + 907 매카시 프로토타입 구현 | 1주 |
 | **Phase 1** | 9요한 라우터 구현 · 907 단독 라우팅 테스트 | 2주 |
-| **Phase 2** | 고빈도 3개 추가 (903 페스탈로치 · 904 바흐 · 905 케플러) | 3주 |
+| **Phase 2** | 고빈도 3개 추가 (903 듀이 · 904 바흐 · 905 노이만) | 3주 |
 | **Phase 3** | 나머지 4개 추가 + 직결 협업(mesh) 허용 | 4주 |
 | **Phase 4** | OpenClaw/헤르메스 역할 분담 확정 · 마이그레이션 | 2주 |
 

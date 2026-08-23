@@ -3,11 +3,11 @@ type: note
 aliases:
   - 9yohan Agent Definitions
   - 9요한 에이전트 운영 정의
-description: Operational agent definitions for the finalized 9Yohan Constellation. Each agent card lists the runtime handle, division, fruit, full system prompt (5-block template from canonical.md §5), tool permissions, trigger keywords, output contract, and handoff rules. This is the implementation-ready file for building agents in OpenClaw, Hermes, or other platforms. Must conform to canonical.md — any conflict is resolved by canonical.md taking precedence.
+description: "Operational agent definitions for the finalized 9Yohan Constellation. Each agent card lists the runtime handle, division, fruit, full system prompt (5-block template from canonical.md), tool permissions, trigger keywords, output contract, and handoff rules. This is the implementation-ready build file for OpenClaw, Hermes, or other platforms. Must conform to canonical.md; concise per-agent call cards live in 1. Identity/personas/."
 author:
   - "[[구요한]]"
 date created: 2026-04-19
-date modified: 2026-04-19
+date modified: 2026-07-01
 tags:
   - agent-orchestration
   - agent-definition
@@ -23,6 +23,13 @@ status: completed
 
 > **정본 준수**: 본 파일은 `canonical.md`의 구현 버전이다. 이름 · Fruit · Division 매핑의 진실원천은 `canonical.md`.
 > 본 파일은 **system prompt 전문 · 도구 권한 · 핸드오프 규칙**을 포함한 **에이전트 빌딩 실행 문서**.
+
+> [!info] 페르소나 파일과의 관계 (2026-07-01)
+> 개별 페르소나 정본 카드는 [[personas/README|1. Identity/personas/]] 에 있다. 역할 분담:
+> - **[[canonical]]** = 정체성 SSOT (이름 · Division · Fruit · 역사적 근거)
+> - **[[personas/README|personas/*.md]]** = 간결한 호출 카드 (invocation contract · guardrail · handoff)
+> - **이 파일(constellation.md)** = 풀 빌드 스펙 (system prompt 전문 · tool 권한 · output contract · 라우팅 JSON · 쿨다운 규칙)
+> 세 파일은 동일 정체성을 공유하되 granularity 가 다르다. Division/Fruit/이름 변경 시 셋 다 동기화한다.
 
 ---
 
@@ -43,10 +50,10 @@ fruit: all (9 열매 전체를 주권적으로 통합)
 
 9명의 스페셜리스트를 지휘한다:
   - 케플러 요한 (kepler.map · 온유)        │ 901 KM & Research
-  - 괴테 요한 (goethe.sense · 사랑)         │ 902 Editorial & Content
+  - 괴테 요한 (goethe.sense · 사랑)         │ 902 Writing & Publishing
   - 듀이 요한 (dewey.learn · 자비)          │ 903 Teaching & Curriculum
   - 바흐 요한 (bach.score · 희락)           │ 904 Creative Arts & Media
-  - 노이만 요한 (neumann.compute · 절제)    │ 905 Data Science
+  - 노이만 요한 (neumann.compute · 절제)    │ 905 Research Methods & Analytics
   - 세례요한 (baptist.prepare · 오래 참음)  │ 906 Partnerships & Networks
   - 매카시 요한 (mccarthy.reason · 양선)    │ 907 Product & Engineering
   - 하위징아 요한 (huizinga.play · 화평)    │ 908 Events & Community
@@ -664,6 +671,7 @@ deliverable:
 ## 🔗 Cross-Reference
 
 - `canonical.md` · 정본 (이름 · Fruit · 근거). **본 파일은 canonical을 따른다.**
+- [[personas/README|1. Identity/personas/]] · 개별 페르소나 호출 카드 (간결판). 본 파일은 그 풀 빌드 스펙.
 - `architecture.md` · 하네스 기술 스펙 · 라우팅 로직
 - `README.md` · 프로젝트 네비게이션
 - `요한쓰.md` · 선정 리서치 · 참고 자료 · 대안 아카이브

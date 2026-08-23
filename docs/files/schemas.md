@@ -6,8 +6,8 @@ aliases:
 description: Message and payload schemas for the 9Yohan Constellation — Task Packet (9요한 → specialist), Agent Result (specialist → 9요한), Signed Action Packet (for Hermes external execution), Session/Memory records, and Observability trace fields. Schemas are defined in YAML with JSON-compatible structure. Reference when implementing the router, message bus, or any inter-agent communication.
 author:
   - "[[구요한]]"
-date created: 2026-04-19
-date modified: 2026-04-19
+date created: 2026-04-19T20:46
+date modified: 2026-04-24T11:53
 tags:
   - agent-orchestration
   - schema
