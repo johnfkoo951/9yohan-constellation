@@ -4,7 +4,7 @@
 # 원장 정본: 볼트 agents/_sessions/ledger.jsonl (마더십 git+NAS 일일 백업 커버)
 # DEV 레포의 sessions/ 는 이 폴더로의 심링크 (gitignore — 퍼블릭 원격에 미전송)
 set -euo pipefail
-S="/Users/yohankoo/Local Obsidian_MBP/CMDSPACE_Local_MBP/00. Inbox/03. AI Agent/agents/_sessions"
+S="${CMDS_VAULT:-$HOME/Local Obsidian_MBP/CMDSPACE_Local_MBP}/00. Inbox/03. AI Agent/agents/_sessions"
 HANDLE="${1:?handle}"; TASK="${2:?task_id}"; STATUS="${3:?status}"; SUMMARY="${4:?summary}"
 OUTPUT="${5:-}"; WORKFLOW="${6:-adhoc}"
 TS="$(date '+%Y-%m-%dT%H:%M:%S%z')"

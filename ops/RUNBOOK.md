@@ -20,8 +20,36 @@
 | 그록 집사 (prime.aide) | `~/.hermes/SOUL.md` + 텔레그램 | `hermes cron list` (aide-heartbeat 매일 09:03) |
 | kepler-sentinel | Hermes cron (월 09:33) → 텔레그램 다이제스트 | cron Last run + 다이제스트 실물 |
 | baptist-cadence | Hermes cron (월 10:07, `~/.hermes/scripts/`) | cadence heartbeat.log |
-| huizinga | OpenClaw 2026.7.1 (온보딩 대기) | `openclaw gateway status` |
+| huizinga | OpenClaw 2026.7.1 · Slack Socket Mode (라이브, **감옥 적용**) | `openclaw gateway status` + 감옥 3-프로브 (아래) |
 | 주간 계측 | `~/.claude/scripts/weekly-measure-all.sh` (일 21:23) → `9yohan-measure.py` | 9yohan-measure.jsonl |
+
+## huizinga 격리 (INCIDENTS 004 · 2026-08-23)
+
+채널 에이전트는 외부인(팀·커뮤니티)이 말을 걸 수 있으므로 경계가 **규율이 아니라 강제**여야 한다.
+
+**왜 설정으로 안 되는가**: OpenClaw는 claude CLI를 `--permission-mode bypassPermissions`로 스폰한다.
+그래서 `openclaw.json`의 `tools.fs.workspaceOnly`·`tools.exec.mode=deny`도, `settings.json`의
+`permissions.deny`도 claude 내장 도구(Read/Bash)에는 **적용되지 않는다**. bypass 하에서도 살아남는
+집행 지점은 PreToolUse 훅 하나뿐이다. (`CLAUDE_CONFIG_DIR` 주입도 불가 — OpenClaw의 `CLAUDE_CLI_CLEAR_ENV`가 스폰 직전 삭제한다.)
+
+| 항목 | 값 |
+|---|---|
+| 집행기 | `~/.claude/hooks/openclaw-jail.sh` (PreToolUse, matcher `*`) |
+| 감옥 범위 | 셸 전면 차단 · 워크스페이스 밖 읽기/쓰기/검색 차단(realpath로 상대경로·심링크 탈출 포함) · `mcp__*` 전면 차단 |
+| 트리거 | cwd가 워크스페이스 하위 **또는** `OPENCLAW_SERVICE_MARKER` env 존재 (cwd 위장 방어) |
+| 자기보호 | OpenClaw가 `--setting-sources user`를 강제 → 워크스페이스 안 설정 파일로 감옥 해제 불가. 훅 파일 자체도 워크스페이스 밖이라 쓰기 차단 |
+| 감사 | 차단 전량 `~/.claude/logs/openclaw-jail.log` (타임스탬프·도구·사유) |
+| 채널 노출 | 슬랙 `dmPolicy: allowlist` + `allowFrom: [구요한]`, `groupPolicy: disabled` |
+
+**검증 절차 (변경 후 매번)** — 워크스페이스에서 OpenClaw와 동일 조건으로 3-프로브:
+
+```bash
+cd ~/.openclaw/workspace
+claude -p "Attempt all three and report SUCCESS/BLOCKED for each: (1) Read $HOME/.hermes/SOUL.md (2) run shell: whoami (3) Read ./IDENTITY.md" \
+  --permission-mode bypassPermissions --setting-sources user --max-turns 12
+```
+
+합격 기준: **① BLOCKED · ② BLOCKED · ③ SUCCESS**. 하나라도 어긋나면 감옥이 뚫린 것 — INCIDENTS에 적재.
 
 ## 세션 원장 규약 (후속 작업 재개용)
 
