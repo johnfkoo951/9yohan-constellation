@@ -7,7 +7,7 @@ description: A curated catalog of ~25 historical figures named John/Johann/Johan
 author:
   - "[[구요한]]"
 date created: 2026-04-19T12:37
-date modified: 2026-04-19T14:55
+date modified: 2026-04-22T14:53
 tags:
   - agent-orchestration
   - persona-selection

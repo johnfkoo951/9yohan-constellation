@@ -631,6 +631,29 @@
             color: #0b0f0d;
         }
 
+        /* ── Mermaid diagrams ────────────────────────── */
+        .mermaid-block {
+            margin: 28px 0;
+            padding: 20px 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--bg-elev, var(--bg));
+            /* 넓은 다이어그램은 자기 상자 안에서만 스크롤 — 본문이 가로로 밀리면 안 된다 */
+            overflow-x: auto;
+            text-align: center;
+        }
+        .mermaid-block:not(.rendered) { min-height: 60px; }
+        .mermaid-block svg {
+            max-width: 100%;
+            height: auto;
+        }
+        .mermaid-block.failed {
+            text-align: left;
+            border-color: var(--warn, #c47b2a);
+            padding: 0;
+        }
+        .mermaid-block.failed pre { margin: 0; }
+
         /* Tables */
         .doc-body table {
             width: 100%;
@@ -867,6 +890,8 @@
                 <li><a href="#workflows" data-target="workflows"><code>workflows.md</code></a></li>
                 <li><a href="#playbooks" data-target="playbooks"><code>playbooks.md</code></a></li>
                 <li><a href="#schemas" data-target="schemas"><code>schemas.md</code></a></li>
+                <li><a href="#security" data-target="security"><code>security.md</code><span class="file-badge">NEW</span></a></li>
+                <li><a href="#control-plane" data-target="control-plane"><code>control-plane.md</code><span class="file-badge">NEW</span></a></li>
             </ul>
         </div>
 
@@ -1078,7 +1103,7 @@
                 <div class="doc-header">
                     <div class="doc-kicker">LAYER 02 · IMPLEMENTATION <span class="dot">·</span> Harness Spec</div>
                     <h2 class="doc-title"><code>architecture.md</code></h2>
-                    <p class="doc-desc">하네스 기술 스펙. Star topology · 4계층 (라우팅/메모리/통신/페르소나) · 10-step control loop · 관찰성 · 구현 로드맵 5 phase.</p>
+                    <p class="doc-desc">하네스 기술 스펙. 3-plane 토폴로지 (Desk · Resident · Channel) · 요한별 런타임 바인딩 · 4계층 (라우팅/메모리/통신/페르소나) · 신뢰 경계와 감옥 · 관제면과 세션 원장 · 승격 게이트.</p>
                 </div>
                 <div class="doc-body loading">Loading…</div>
             </article>
@@ -1088,7 +1113,7 @@
                 <div class="doc-header">
                     <div class="doc-kicker">LAYER 03 · OPERATIONS <span class="dot">·</span> Workflow Patterns</div>
                     <h2 class="doc-title"><code>workflows.md</code></h2>
-                    <p class="doc-desc">4개 primitive (Single · Sequential · Parallel · Control Loop) · CMDS Stage × 9요한 매핑 · 핸드오프 preconditions · 상태 전이 · 금지 패턴.</p>
+                    <p class="doc-desc">5개 primitive (Single · Sequential · Parallel · Control Loop · Resident) · 11단계 Control Loop · CMDS Stage × 9요한 매핑 · 핸드오프 preconditions · propose/승인 상태 전이 · 금지 패턴 12선.</p>
                 </div>
                 <div class="doc-body loading">Loading…</div>
             </article>
@@ -1106,7 +1131,25 @@
                 <div class="doc-header">
                     <div class="doc-kicker">LAYER 03 · OPERATIONS <span class="dot">·</span> Message Schemas</div>
                     <h2 class="doc-title"><code>schemas.md</code></h2>
-                    <p class="doc-desc">메시지 페이로드 표준 5종 — Task Packet · Agent Result · Signed Action Packet · Session Record · Trace Event (CloudEvents). YAML 전문 + 실제 LG AX 예시.</p>
+                    <p class="doc-desc">메시지 페이로드 표준 5종 — TaskPacket-8 (실사용 축소판) · Agent Result (+self_docked) · Signed Action Packet · Session Record · Trace Event (CloudEvents). YAML 전문 + 실제 LG AX 예시.</p>
+                </div>
+                <div class="doc-body loading">Loading…</div>
+            </article>
+
+            <article class="doc" id="security" data-file="security.md">
+                <div class="doc-header">
+                    <div class="doc-kicker">LAYER 03 · OPERATIONS <span class="dot">·</span> Trust Boundary</div>
+                    <h2 class="doc-title"><code>security.md</code></h2>
+                    <p class="doc-desc">채널 평면 신뢰 경계 정본. 왜 OpenClaw 도구 정책도 <code>permissions.deny</code>도 <code>bypassPermissions</code> 아래에서는 구속력이 없는지, 왜 PreToolUse 훅만 남는지, 허용/차단 매트릭스와 두 MCP 예외의 정당화, 권한 분리, 변경 후 필수 3-프로브 적대 검증.</p>
+                </div>
+                <div class="doc-body loading">Loading…</div>
+            </article>
+
+            <article class="doc" id="control-plane" data-file="control-plane.md">
+                <div class="doc-header">
+                    <div class="doc-kicker">LAYER 03 · OPERATIONS <span class="dot">·</span> Control Plane</div>
+                    <h2 class="doc-title"><code>control-plane.md</code></h2>
+                    <p class="doc-desc">관제면·결재 루프·세션 원장 정본. 시간상수 분리(결재는 기존 큐 합류, 회고 조망만 신설) · 4단계 결재 트랜잭션 · 3×3 고정 배치와 채도=수요 · 정체성 레지스트리와 초상 타일 · 재개 절차 · 장애 시 동작.</p>
                 </div>
                 <div class="doc-body loading">Loading…</div>
             </article>
@@ -1160,6 +1203,8 @@
 
 <!-- Marked.js for Markdown parsing -->
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<!-- Mermaid for diagram rendering (정본 md의 ```mermaid 블록) -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
 
 <script>
 (function() {
@@ -1275,11 +1320,49 @@
     // ════════════════════════════════════════════════
     const docIndex = []; // for search
 
+    // ── Mermaid ──────────────────────────────────────
+    // 정본 md가 ```mermaid 로 다이어그램을 담고 있으므로 뷰어가 직접 렌더한다.
+    // 테마 전환 시 색이 따라와야 해서 원본(dataset.src)에서 매번 새로 그린다.
+    let mermaidSeq = 0;
+
+    async function renderMermaid() {
+        if (typeof mermaid === 'undefined') return;
+        const blocks = document.querySelectorAll('.mermaid-block');
+        if (!blocks.length) return;
+
+        const dark = document.documentElement.dataset.theme === 'dark';
+        mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'strict',
+            theme: dark ? 'dark' : 'default',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Pretendard", sans-serif',
+            themeVariables: dark
+                ? { primaryColor: '#1b4a3d', primaryTextColor: '#e8f0ec', lineColor: '#6f8f83' }
+                : { primaryColor: '#e6efe9', primaryTextColor: '#0f2c24', lineColor: '#4a7263' },
+        });
+
+        for (const el of blocks) {
+            const src = el.dataset.src;
+            if (!src) continue;
+            try {
+                const { svg } = await mermaid.render(`mmd-${++mermaidSeq}`, src);
+                el.innerHTML = svg;
+                el.classList.add('rendered');
+            } catch (err) {
+                // 렌더 실패해도 내용은 보여준다 — 빈 상자보다 원문이 낫다.
+                el.classList.add('failed');
+                el.innerHTML = `<pre><code>${escapeHTML(src)}</code></pre>`;
+                console.warn('[mermaid]', err?.message ?? err);
+            }
+        }
+    }
+
     async function loadDocs() {
         const articles = document.querySelectorAll('article.doc[data-file]');
         await Promise.all(Array.from(articles).map(loadOne));
         buildTOC();
         setupScrollSpy();
+        renderMermaid();
     }
 
     async function loadOne(article) {
@@ -1293,6 +1376,7 @@
             const html = marked.parse(body);
             const bodyEl = article.querySelector('.doc-body');
             bodyEl.classList.remove('loading');
+            article.dataset.mdBody = body;
 
             // 9요한 초상 — personas/9XX-handle.md 에 한해 헤더에 주입.
             // md 미러(볼트 정본의 사본)는 건드리지 않는다 — 재미러 시 드리프트 방지.
@@ -1319,6 +1403,15 @@
             let hcount = 0;
             bodyEl.querySelectorAll('h2, h3').forEach(h => {
                 if (!h.id) h.id = `${article.id}--h${++hcount}`;
+            });
+
+            // mermaid 블록을 렌더 대상으로 승격 — copy 버튼 부착보다 먼저 해야
+            // 다이어그램에 Copy가 붙지 않는다. 원본은 data 속성에 남겨 테마 전환 시 재렌더.
+            bodyEl.querySelectorAll('pre > code.language-mermaid').forEach(code => {
+                const holder = document.createElement('div');
+                holder.className = 'mermaid-block';
+                holder.dataset.src = code.textContent;
+                code.parentElement.replaceWith(holder);
             });
 
             // add copy buttons
@@ -1512,6 +1605,7 @@
     document.getElementById('themeToggle').addEventListener('click', () => {
         const cur = document.documentElement.dataset.theme;
         applyTheme(cur === 'light' ? 'dark' : 'light');
+        renderMermaid();   // 다이어그램 색은 테마를 따라와야 한다
     });
 
     palette.addEventListener('click', (e) => { if (e.target === palette) closePalette(); });

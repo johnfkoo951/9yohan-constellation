@@ -7,8 +7,8 @@ aliases:
 description: "Canonical index for the individual 9Yohan persona prompt cards. Use this file to locate the nine specialist persona files, understand which files are source-of-truth versus mirrors, and apply the 2026-07-01 upgrade policy across the main vault, LLM Wiki, and DEV deployment copy."
 author:
   - "[[구요한]]"
-date created: 2026-07-01
-date modified: 2026-07-01
+date created: 2026-07-01T10:44
+date modified: 2026-08-23T11:40
 tags:
   - 9yohan
   - persona
@@ -30,6 +30,7 @@ status: completed
 | Individual persona cards | 이 폴더 | 간결한 호출 카드 — invocation·트리거·핸드오프·가드레일 |
 | Full build spec | [[constellation]] | 각 요한의 system prompt 전문·tool 권한·output contract·라우팅 JSON |
 | Runtime stack hypothesis | [[2026-06-27-constellation-stack-design]] | 모델·서비스·장비 배정의 측정 전 가설 |
+| Wiki reference layer | [LLM Wiki: 9Yohan Constellation](obsidian://open?vault=CMDS_LLM_Wiki&file=20.%20Wiki%2F22.%20Entities%2F9Yohan%20Constellation) | 개념·패턴·외부 연구와의 연결 |
 | DEV mirror | `~/DEV/9yohan-constellation/docs/files/` | 배포용 사본, 정본 아님 |
 
 > [!tip] 3개 파일의 granularity 구분
@@ -71,7 +72,7 @@ status: completed
 | Handoff | 어느 요한/prime 으로 넘길지 |
 
 ## Scattered-file cleanup guidance
-- Main vault project folder의 A-layer가 정본이다: `00. Inbox/03. AI Agent/03-1. Claude Code (MBP)/2026-04-19-9yohan-orchestration/`.
+- Main vault project folder의 A-layer가 정본이다: `70. Outputs/74. Projects/9yohan Constellation/`.
 - Root Division 파일 9개([[📚 901 Knowledge Management & Research Division]]~[[📚 909 Consulting & Advisory Division]])는 운영 카테고리 페이지다. persona prompt 본문을 그 파일로 중복 복사하지 않는다.
 - LLM Wiki는 reference/compile layer다. 최신 정본을 satellite 에 복사하지 말고, `mainVaultRelated`/obsidian URL 로 mothership 정본에 연결한다.
 - DEV repo의 `docs/files/` 는 웹 배포용 미러다. 변경 순서는 **A-layer 수정 → DEV mirror 복사 → 배포/문서 사이트 갱신**이다.

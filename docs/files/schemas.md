@@ -3,16 +3,16 @@ type: note
 aliases:
   - 9yohan Schemas
   - 9요한 메시지 스키마
-description: Message and payload schemas for the 9Yohan Constellation — Task Packet (9요한 → specialist), Agent Result (specialist → 9요한), Signed Action Packet (for Hermes external execution), Session/Memory records, and Observability trace fields. Schemas are defined in YAML with JSON-compatible structure. Reference when implementing the router, message bus, or any inter-agent communication.
+description: Message and payload schemas for the 9Yohan Constellation — Task Packet (9요한 → specialist), Agent Result (specialist → 9요한), Signed Action Packet (for Hermes external execution), Session/Memory records, and Observability trace fields. Schemas are defined in YAML with JSON-compatible structure. As of 2026-08-24 the runtime uses the 8-field TaskPacket reduction; the 20-field original is kept as reference spec only, AgentResult requires self_docked, and mesh direct-linking is retired. Reference when implementing the router, message bus, or any inter-agent communication.
 author:
   - "[[구요한]]"
 date created: 2026-04-19T20:46
-date modified: 2026-04-24T11:53
+date modified: 2026-08-24
 tags:
+  - 9yohan
   - agent-orchestration
   - schema
   - message
-  - 9yohan
 CMDS: "[[📚 620 Generative AI]]"
 status: completed
 ---
@@ -24,6 +24,10 @@ status: completed
 >
 > 관련: [[workflows]] (사용 맥락) · [[playbooks]] (실전 페이로드 예시) · [[architecture]] (시스템 컨텍스트)
 
+> [!important] 2026-08-24 개정 — 실사용 스키마는 축소판이다
+> **런타임이 실제로 쓰는 것은 §2.2의 8필드 축소판**(`TaskPacket-8`)이다. 아래 §2.3의 20필드 원판은 **참조 스펙**으로만 남긴다 — [[audit-2026-05-11|5/11 감사]] C3("Schema 과설계로 Phase 1 구현 지연 위험")의 조치이며 [[2026-08-23-mbp-constellation-implementation-plan]] §5가 "20필드 원판 금지"로 확정했다.
+> 그 외 개정 2건: ① `AgentResult`에 **`self_docked` 필수** 추가 ② `allow_direct_link`(mesh) **폐기** — 요한 간 직결 대신 next action 제안 ([[workflows]] §4.2).
+
 ---
 
 ## 1. 스키마 전체 관계도
@@ -31,12 +35,16 @@ status: completed
 ```mermaid
 flowchart TB
     U["사용자 요청"] -->|"자연어"| Y9["9yohan.prime"]
-    Y9 -->|"TaskPacket"| SP["Specialist (예: kepler.map)"]
-    SP -->|"AgentResult"| Y9
-    Y9 -->|"SignedActionPacket"| H["Hermes (실행 계층)"]
+    AIDE["prime.aide 그록 집사"] -->|"TaskPacket-8<br/>(파일 큐)"| Y9
+    Y9 -->|"<b>TaskPacket-8</b>"| SP["Specialist (예: kepler.map)"]
+    SP -->|"AgentResult<br/>(+self_docked)"| Y9
+    Y9 -->|"SignedActionPacket<br/><i>prime 서명만</i>"| H["Hermes (exec plane)"]
     H -->|"ExecutionReceipt"| Y9
-    Y9 -->|"MemoryRecord"| V["CMDS Vault / Session Store"]
+    Y9 -->|"MemoryRecord<br/><i>승격 게이트 통과분</i>"| V["CMDS Vault"]
+    Y9 -->|"LedgerRow 🆕"| L["_sessions/ledger.jsonl"]
     Y9 -->|"TraceEvent"| T["관찰성 스토어 (OTel)"]
+
+    style L fill:#E985A2,color:#000
 ```
 
 ---
@@ -46,7 +54,39 @@ flowchart TB
 ### 2.1 용도
 9요한이 스페셜리스트에게 작업을 위임할 때 사용하는 표준 메시지.
 
-### 2.2 스키마 (YAML)
+### 2.2 실사용 스키마 · **TaskPacket-8** (축소판 · 현행)
+
+`/9yohan` 라우터와 `prime/queue/`가 실제로 주고받는 형태. **필드 8개 고정.**
+
+```yaml
+task_packet:
+  task_id: string          # <workflow>-<YYYYMMDD>-<yohan|slug>  예: pb01-20260823-kepler
+  to: string               # 핸들 — 예: "kepler.map"
+  intent: string           # 1줄 — 무엇을 왜
+  context: [string]        # 경로·wikilink·이전 단계 결과 요약 (배열)
+  success_criteria: [string]   # 명시적 합격 조건
+  constraints: [string]    # 시간·톤·포맷·금지사항을 한 배열로 (원판의 4개 하위필드를 합침)
+  depends_on: [string]     # 선행 task_id — 비어 있으면 병렬 가능
+  workflow: string         # 플레이북 id 또는 "adhoc"
+```
+
+**왜 8개인가**: 원판 20필드는 매 호출마다 15개를 `null`로 채우게 만들었다. 채워지지 않는 필드는 검증도 안 되고 읽히지도 않는다 — 스키마가 아니라 장식이다. 실측에서 **의미 있게 달라지는 값이 8개**였다.
+
+**원판에서 사라진 것과 그 행선지**:
+
+| 원판 필드 | 어디로 갔나 |
+|---|---|
+| `trace_id` · `run_id` · `idempotency_key` | 원장(`ledger.jsonl`)·TraceEvent가 소유 — 패킷이 나를 필요가 없다 |
+| `from` · `return_to` | **불변** (`9yohan.prime`) — 상수는 필드가 아니다 |
+| `allow_direct_link` | **폐기** (mesh 미사용) |
+| `mission` · `history_summary` | `intent` + `context`로 흡수 |
+| `cmds_stage` · `division` · `fruit_context` | 핸들에서 유도 가능 (`kepler.map` → 901 → 온유) |
+| `priority` · `deadline` | `constraints` 배열 문자열로 |
+| `parent_task_id` | `depends_on`으로 충분 |
+
+> 외부 action이 있는 경우에만 `idempotency_key`를 SignedActionPacket 쪽에서 별도 부여한다 (§4).
+
+### 2.3 참조 스펙 · 원판 20필드 (**미사용** — 확장 시 참조용)
 
 ```yaml
 task_packet:
@@ -94,7 +134,7 @@ task_packet:
   priority: "low"|"normal"|"high"|"critical"
 ```
 
-### 2.3 예시 (케플러 요한 호출)
+### 2.4 예시 (케플러 요한 호출 · 원판 형태)
 
 ```yaml
 task_packet:
@@ -174,6 +214,10 @@ agent_result:
   risks:
     - description: string
       severity: "low"|"medium"|"high"
+  self_docked: [string]        # 🆕 필수 — 스스로 기각한 주장·과장의 기록
+                               #    예: ["'유일한 해법'이라 썼다가 철회 — 대안 2개 존재",
+                               #         "출처 못 찾은 통계 1건 삭제"]
+                               #    빈 배열도 유효하나, 계속 비어 있으면 검증이 얕다는 신호
 
   # --- 후속 ---
   next_handoff: string|null    # 제안 handoff target agent
@@ -489,12 +533,25 @@ trace_event:
 
 ### 8.3 Handoff
 - 모든 handoff는 TaskPacket 또는 AgentResult 중 하나
-- `return_to`가 `9yohan.prime`이 아닌 경우 `allow_direct_link=true` 선행 필수
+- `return_to`는 **항상** `9yohan.prime` — mesh(`allow_direct_link`)는 2026-08-24 폐기
+- 요한은 다음 요한을 **호출하지 않는다** — `next_handoff`에 **제안**만 적고, 호출은 prime이 한다
 - 순환 handoff(A→B→A) 탐지 시 자동 중단
 
 ### 8.4 페르소나 준수
 - 모든 AgentResult는 `persona_adherence.fruit_reflected` 채워져야 함
 - 해당 요한의 Fruit과 일치하지 않는 결과는 9요한이 반려 가능
+- 🆕 모든 AgentResult에 `self_docked` 필드 존재 (빈 배열 허용, 누락은 불가)
+
+### 8.5 원장 (2026-08-24 신설)
+- 모든 요한 런은 종료 **즉시** `yohan-log.sh` 1회 — 기록 없는 런은 유령
+- **일괄 소급 기록 금지** (동일 ts 다발 = 감사 플래그)
+- `status=propose`는 결재 대기 — 산출 `.md`의 `status: proposed`와 **동시 존재**해야 계측이 성립
+- 상세: [[9YOHAN-CONTROL-PLANE]] §4
+
+### 8.6 평면 경계 (2026-08-24 신설)
+- 평면 간 전달은 **파일만** — Channel → Desk는 `inbox/`·`prime/queue/`, 직접 호출 없음
+- 무인(Resident) 잡은 정본 쓰기 불가 — **propose까지**
+- 상세: [[architecture]] §1.3
 
 ---
 

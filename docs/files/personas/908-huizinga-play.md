@@ -7,8 +7,8 @@ aliases:
 description: "Canonical persona prompt card for huizinga.play, the 908 Events and Community Engagement specialist responsible for community rituals, event cadence, onboarding, and magic-circle design."
 author:
   - "[[구요한]]"
-date created: 2026-07-01
-date modified: 2026-08-23
+date created: 2026-08-23T11:05
+date modified: 2026-08-23T17:43
 tags:
   - 9yohan
   - persona

@@ -6,8 +6,8 @@ aliases:
 description: "Operational agent definitions for the finalized 9Yohan Constellation. Each agent card lists the runtime handle, division, fruit, full system prompt (5-block template from canonical.md), tool permissions, trigger keywords, output contract, and handoff rules. This is the implementation-ready build file for OpenClaw, Hermes, or other platforms. Must conform to canonical.md; concise per-agent call cards live in 1. Identity/personas/."
 author:
   - "[[구요한]]"
-date created: 2026-04-19
-date modified: 2026-07-01
+date created: 2026-04-19T20:46
+date modified: 2026-08-24T16:01
 tags:
   - agent-orchestration
   - agent-definition

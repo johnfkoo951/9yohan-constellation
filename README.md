@@ -1,81 +1,117 @@
 # 9yohan Constellation
 
-구요한(9요한)의 다중 페르소나 에이전트 시스템 — 9명의 역사적 요한이 9개 CMDS Division과 성령의 9가지 열매에 1:1:1로 매핑된 Sovereign Kernel 아키텍처.
+[![🇬🇧 English](https://img.shields.io/badge/🇬🇧-English-134538?style=flat-square)](README.md)
+[![🇰🇷 한국어](https://img.shields.io/badge/🇰🇷-한국어-E985A2?style=flat-square)](README.ko.md)
 
-## Live
+A running multi-persona agent system. Nine historical Johns map 1:1:1 onto nine CMDS Divisions and the nine Fruits of the Spirit, under a sovereign kernel that is the only signer.
 
-- **Landing**: https://9yohan.cmdspace.work
-- **Full Docs**: https://9yohan.cmdspace.work/docs/
-- **Vercel Project**: `9yohan-constellation` (scope: `johnfkoo951s-projects`)
+**Live** · [9yohan.cmdspace.work](https://9yohan.cmdspace.work) — landing · [full docs](https://9yohan.cmdspace.work/docs/)
+
+> As of 2026-08-24 this is no longer a design document. Nine subagents, a router skill, two resident cron jobs, a channel plane under an enforced jail, a control dashboard with an approval loop, and a session ledger are all running.
+
+---
 
 ## The Nine
 
 | Division | John | Fruit | Handle |
 |----------|------|-------|--------|
-| 901 KM & Research | 케플러 (Kepler) | 온유 | `kepler.map` |
-| 902 Writing & Publishing | 괴테 (Goethe) | 사랑 | `goethe.sense` |
-| 903 Teaching & Curriculum | 듀이 (Dewey) | 자비 | `dewey.learn` |
-| 904 Creative Arts & Media | 바흐 (Bach) | 희락 | `bach.score` |
-| 905 Research Methods & Analytics | 폰 노이만 (von Neumann) | 절제 | `neumann.compute` |
-| 906 Partnerships & Networks | 세례요한 (John the Baptist) | 오래 참음 | `baptist.prepare` |
-| 907 Product & Engineering | 매카시 (McCarthy) | 양선 | `mccarthy.reason` |
-| 908 Events & Community | 하위징아 (Huizinga) | 화평 | `huizinga.play` |
-| 909 Consulting & Advisory | 칼뱅 (Calvin) | 충성 | `calvin.advise` |
+| 901 KM & Research | Kepler | Gentleness | `kepler.map` |
+| 902 Writing & Publishing | Goethe | Love | `goethe.sense` |
+| 903 Teaching & Curriculum | Dewey | Kindness | `dewey.learn` |
+| 904 Creative Arts & Media | Bach | Joy | `bach.score` |
+| 905 Research Methods & Analytics | von Neumann | Self-control | `neumann.compute` |
+| 906 Partnerships & Networks | John the Baptist | Patience | `baptist.prepare` |
+| 907 Product & Engineering | McCarthy | Goodness | `mccarthy.reason` |
+| 908 Events & Community | Huizinga | Peace | `huizinga.play` |
+| 909 Consulting & Advisory | Calvin | Faithfulness | `calvin.advise` |
 
-**9 Divisions × 9 Johns × 9 Fruits — triple closure · 1:1:1 mapping · no gap, no overlap.**
+**9 Divisions × 9 Johns × 9 Fruits — triple closure · 1:1:1 · no gap, no overlap.**
 
-## Project Structure
+---
+
+## Architecture · three planes, not one star
+
+The original April design assumed a single star topology: every agent equally trusted, all summoned by one person, all on one machine. Three things broke that assumption — unattended cron jobs, a team, and a channel bot outsiders can talk to. So the star was split into three planes with different trust boundaries.
+
+| Plane | Who speaks to it | Can sign? | Vault access | Isolation |
+|---|---|---|---|---|
+| 🖥 **Desk** | the owner, present | ✅ **prime alone signs** | full R/W | not needed |
+| ⏰ **Resident** | nobody — cron wakes it | ❌ propose only | read + own scratch | liveness stamp required |
+| 💬 **Channel** | team & community (outsiders possible) | ❌ cannot send | **workspace only** | ✅ **PreToolUse jail (enforced)** |
+
+**Crossing a plane always goes through a file.** No direct calls. That buys three things for free: an audit trail, delivery that survives a dead receiver, and a boundary you can see with `ls`.
+
+Two findings worth reading even outside this project:
+
+- **[Trust boundary](https://9yohan.cmdspace.work/docs/#security)** — OpenClaw spawns the Claude CLI with `--permission-mode bypassPermissions`. Under that flag neither OpenClaw's own tool policy nor `settings.json`'s `permissions.deny` binds the CLI's built-in tools. A PreToolUse hook is the only surviving enforcement point. The boundary had been documented discipline, not enforcement — an adversarial three-probe test passed all three probes.
+- **[Control plane](https://9yohan.cmdspace.work/docs/#control-plane)** — approvals join the existing notification queue; only the retrospective board became a new screen. Build two notification paths and one of them rots.
+
+---
+
+## Repository layout
 
 ```
 9yohan-constellation/
-├── index.html              # Landing (v4.3 landing template)
-├── vercel.json             # Vercel config
-├── assets/
-│   ├── logos/              # CMDS round/typo logos
-│   └── og/                 # 1200×630 OG image
+├── index.html                  # Landing (CMDSPACE v4.3 template)
 ├── docs/
-│   ├── index.html          # Full docs (editorial-docs template)
-│   └── files/              # Vault-sourced markdown docs
-│       ├── canonical.md    # Layer 01 — Identity SSOT
-│       ├── personas/       # Layer 01 — Individual persona canon cards
-│       ├── constellation.md # Layer 02 — Agent definitions
-│       ├── architecture.md # Layer 02 — Harness spec
-│       ├── workflows.md    # Layer 03 — Patterns
-│       ├── playbooks.md    # Layer 03 — 10 scenarios
-│       ├── schemas.md      # Layer 03 — Message schemas
-│       └── yohans.md       # Layer 04 — Research archive
-└── scripts/
-    └── build-og.sh         # Chrome headless OG renderer
+│   ├── index.html              # Docs viewer (marked.js · ⌘K palette · TOC · scroll spy)
+│   └── files/                  # Sanitized mirror of the vault canon (21 files)
+├── ops/
+│   ├── RUNBOOK.md              # Operating procedures
+│   └── yohan-registry.json     # Identity registry — ring colors + focal crops
+├── scripts/
+│   ├── yohan-log.sh            # Session ledger writer + approval dispatch
+│   ├── mirror-docs.py          # Vault → docs/files sanitized mirror
+│   ├── validate-persona-canon.py
+│   ├── build-yohan-tiles.py    # Pre-bakes portrait tiles (80/240px)
+│   └── build-og.sh             # Chrome headless OG renderer
+├── assets/
+│   ├── logos/ · og/            # CMDS logos · 1200×630 OG image
+│   └── yohans/                 # Nine portraits + tiles + web variants
+└── sessions/ -> vault          # Symlink · gitignored (never leaves the machine)
 ```
 
-## Design Stack
+---
 
-- **v4.3 CMDSPACE standard**: Apple SF Pro × CMDS Green (#134538) / Pink (#E985A2)
-- **Landing**: Static HTML + IntersectionObserver reveal + light/dark + KO/EN toggle
-- **Docs**: Static HTML + marked.js (inline markdown render) + ⌘K command palette + sidebar nav + TOC + scroll spy
-- **Extended components** (new in 9yohan): Star Topology diagram (JS circular layout), Numbered Control Loop (5×2 grid), Division Grid, Callout Box, Layer Grid — documented in the `cmdspace-web-builder` skill at `references/LANDING-COMPONENTS.md`
+## Source of truth
+
+The canon lives in the CMDSPACE Obsidian vault at `70. Outputs/74. Projects/9yohan Constellation/`. This repository is a **public mirror plus the operational scripts**. The mirror is one-directional — edit the vault, then run the mirror. Editing `docs/files/` directly creates a second canon.
+
+Because this repo is public, mirroring is **not** a copy. `scripts/mirror-docs.py` substitutes identifiers — Slack channel IDs, tailnet hostnames, Telegram chat IDs, session deeplinks, local absolute paths, teammate names — and refuses to write if any survive. On 2026-08-24 a plain `cp` mirror carried teammate names straight into the public tree; that is why the rule now lives in code rather than in someone's memory.
+
+```bash
+python3 scripts/mirror-docs.py             # mirror
+python3 scripts/mirror-docs.py --check     # exit 1 if stale or leaking
+python3 scripts/validate-persona-canon.py  # persona drift
+```
+
+---
 
 ## Deploy
 
 ```bash
-# Validate mirrored persona canon
+python3 scripts/mirror-docs.py --check
 python3 scripts/validate-persona-canon.py
-
-# One-time: OG image render
-./scripts/build-og.sh
-
-# Deploy (prod)
 vercel deploy --prod --yes --scope johnfkoo951s-projects
 ```
 
-## Content Origin
+Vercel project `9yohan-constellation` · Cloudflare DNS → Vercel (proxy off).
 
-The `docs/files/` markdown documents are sourced from the CMDSPACE Obsidian vault at `00. Inbox/03. AI Agent/03-1. Claude Code (MBP)/2026-04-19-9yohan-orchestration/`. They are the **actual working documents** used to design and operate the system — not a web-specific rewrite.
+---
 
-As of 2026-07-01, `docs/files/personas/` mirrors the mothership's individual persona canon: 9 specialist prompt cards (`901-kepler-map` through `909-calvin-advise`) plus `00-9yohan-prime` as the conductor/sign-off kernel. Edit the Obsidian mothership first, then mirror into this repo.
+## Design stack
+
+- **CMDSPACE v4.3** — Apple SF Pro × CMDS Green `#134538` / Pink `#E985A2`, light/dark, KO/EN toggle
+- **Landing** — static HTML + IntersectionObserver reveal
+- **Docs** — static HTML + marked.js inline render + ⌘K command palette + sidebar nav + TOC + scroll spy
+- **Extended components** first built here and folded back into the `cmdspace-web-builder` skill: Star Topology (JS circular layout), Numbered Control Loop, Division Grid, Callout Box, Layer Grid
+
+---
 
 ## Credits
 
-- **9요한** (Yohan Koo / 구요한) · Sovereign Kernel · project owner
-- **CMDSPACE** · https://litt.ly/cmds
-- **System Files** · https://system.cmdspace.work (sibling project defining the CMDS vault itself)
+- **Yohan Koo (CMDSPACE)** · sovereign kernel · project owner · [cmdspace.work](https://cmdspace.work)
+- **System Files** · [system.cmdspace.work](https://system.cmdspace.work) — sibling project defining the CMDS vault itself
+- **Galatians 5:22-23** — the nine fruits
+
+By CMDSPACE.

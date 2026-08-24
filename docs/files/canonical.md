@@ -8,7 +8,7 @@ description: "Canonical specification of the finalized 9Yohan Constellation — 
 author:
   - "[[구요한]]"
 date created: 2026-04-19T15:49
-date modified: 2026-08-23T08:46
+date modified: 2026-08-24T12:07
 tags:
   - agent-orchestration
   - canonical
@@ -470,10 +470,14 @@ CMDS Division 901 Knowledge Management & Research의 수장으로서 Connect →
 
 ## 7. Cross-Reference
 
-- `README.md` · 프로젝트 네비게이션 및 의사결정 로그
-- `architecture.md` · 하네스 기술 스펙 · 라우팅 로직 · 로드맵
-- `constellation.md` · 에이전트별 운영 정의 (본 정본 기반)
-- `요한쓰.md` · 선정 리서치 · 참고 자료(7개 외부 AI 제안) · 대안 아카이브
+- [[README]] · 프로젝트 네비게이션 및 의사결정 로그
+- [[personas/README]] · 개별 페르소나 카드 9종 + conductor 카드
+- [[architecture]] · 하네스 기술 스펙 · 3-plane 토폴로지 · 런타임 바인딩
+- [[constellation]] · 에이전트별 운영 정의 (본 정본 기반)
+- [[2026-08-23-mbp-constellation-implementation-plan]] · 배치 결정 (요한 × 런타임 × 모델)
+- [[9YOHAN-OPERATIONS]] · 운영 규약 · [[9YOHAN-SECURITY]] · 신뢰 경계 · [[9YOHAN-CONTROL-PLANE]] · 결재·원장
+- [[9YOHAN-INCIDENTS]] · 사고 원장
+- [[요한쓰]] · 선정 리서치 · 참고 자료(7개 외부 AI 제안) · 대안 아카이브
 - [[CMDS.md]] · 900 Divisions 상세
 - [[CLAUDE.md]] · 볼트 기술 규칙
 - **Galatians 5:22-23 (KRV)** · 성령의 9가지 열매 원문
