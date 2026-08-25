@@ -1,5 +1,5 @@
 {
-  "_comment": "9yohan identity registry — 오버레이 카드·대시보드가 공유하는 단일 원천. ring=다크 카드 위에서 읽히도록 초상 지배색의 hue를 유지한 채 S/V를 올린 값. crop=[x,y,w,h] 정사각 원본에 대한 비율 — 40px에서 읽히도록 손으로 정한 포컬 사각형.",
+  "_comment": "9yohan identity registry — 오버레이 카드·대시보드가 공유하는 단일 원천. ring=다크 카드 위에서 읽히도록 초상 지배색의 hue를 유지한 채 S/V를 올린 값. crop=[x,y,w,h] 정사각 원본에 대한 비율 — 40px에서 읽히도록 손으로 정한 포컬 사각형. harness=정본 런타임(RUNBOOK 라이브 배선 기준). CC 서브에이전트가 정본이 아닌 요한은 대리 수행.",
   "yohans": {
     "kepler-map": {
       "division": "901",
@@ -13,7 +13,11 @@
         0.34,
         0.34
       ],
-      "source": "assets/yohans/901-kepler-map.png"
+      "source": "assets/yohans/901-kepler-map.png",
+      "harness": {
+        "canonical": "Claude Code subagent",
+        "aux": "Hermes cron (kepler-sentinel, 월 09:33)"
+      }
     },
     "goethe-sense": {
       "division": "902",
@@ -27,7 +31,11 @@
         0.48,
         0.48
       ],
-      "source": "assets/yohans/902-goethe-sense.png"
+      "source": "assets/yohans/902-goethe-sense.png",
+      "harness": {
+        "canonical": "Claude Code subagent",
+        "aux": null
+      }
     },
     "dewey-learn": {
       "division": "903",
@@ -41,7 +49,11 @@
         0.44,
         0.44
       ],
-      "source": "assets/yohans/903-dewey-learn.png"
+      "source": "assets/yohans/903-dewey-learn.png",
+      "harness": {
+        "canonical": "Claude Code subagent",
+        "aux": null
+      }
     },
     "bach-score": {
       "division": "904",
@@ -55,7 +67,11 @@
         0.42,
         0.42
       ],
-      "source": "assets/yohans/904-bach-score.png"
+      "source": "assets/yohans/904-bach-score.png",
+      "harness": {
+        "canonical": "Claude Code subagent",
+        "aux": null
+      }
     },
     "neumann-compute": {
       "division": "905",
@@ -69,7 +85,11 @@
         0.52,
         0.52
       ],
-      "source": "assets/yohans/905-neumann-compute.png"
+      "source": "assets/yohans/905-neumann-compute.png",
+      "harness": {
+        "canonical": "Codex (Phase 3)",
+        "aux": "CC 서브에이전트는 대리 수행"
+      }
     },
     "baptist-prepare": {
       "division": "906",
@@ -83,7 +103,11 @@
         0.3,
         0.3
       ],
-      "source": "assets/yohans/906-baptist-prepare.png"
+      "source": "assets/yohans/906-baptist-prepare.png",
+      "harness": {
+        "canonical": "Hermes (Phase 2)",
+        "aux": "Hermes cron (baptist-cadence, 월 10:07)"
+      }
     },
     "mccarthy-reason": {
       "division": "907",
@@ -97,7 +121,11 @@
         0.36,
         0.36
       ],
-      "source": "assets/yohans/907-mccarthy-reason.png"
+      "source": "assets/yohans/907-mccarthy-reason.png",
+      "harness": {
+        "canonical": "Claude Code subagent",
+        "aux": null
+      }
     },
     "huizinga-play": {
       "division": "908",
@@ -111,7 +139,11 @@
         0.72,
         0.72
       ],
-      "source": "assets/yohans/908-huizinga-play.png"
+      "source": "assets/yohans/908-huizinga-play.png",
+      "harness": {
+        "canonical": "OpenClaw (Phase 2)",
+        "aux": "Slack Socket Mode · PreToolUse 감옥"
+      }
     },
     "calvin-advise": {
       "division": "909",
@@ -125,7 +157,11 @@
         0.5,
         0.5
       ],
-      "source": "assets/yohans/909-calvin-advise.png"
+      "source": "assets/yohans/909-calvin-advise.png",
+      "harness": {
+        "canonical": "Claude Code subagent",
+        "aux": null
+      }
     }
   }
 }
